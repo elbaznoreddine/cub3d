@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <mlx.h>
+// # include <mlx.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -56,4 +56,7 @@ int	init_game(t_game **game);
 int	ft_parse_config(t_game *game, char *map_name);
 char	*get_next_line(int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+void	free_game(t_game *game);
+void	free_config(t_config *config);
+char	*ft_strncpy(char *dst, const char *src, size_t len);
 #endif

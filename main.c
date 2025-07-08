@@ -18,8 +18,13 @@ int	main(int ac, char **av)
 	if (!init_game(&game))
 		return (write(2, "Malloc: can't alocate memory\n", 30), 1);
 	if (!ft_parse_config(game, av[1]))
+	{
+		free_game(game);
 		return (write(2, "Parse: The config not valid\n", 28), 1);
-	if (game)
-		free(game);
+	}
+	
+	//game logic
+	
+	free_game(game);
 	return (0);
 }
