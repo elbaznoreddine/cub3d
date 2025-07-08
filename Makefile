@@ -1,9 +1,10 @@
 NAME=cub3D
 
-FLAGS= -Werror -Wextra -Wall -fsanitize=address -g
+FLAGS= -Werror -Wextra -Wall #-fsanitize=address -g
 
 PARSE= main.c\
-	   parsing/func_utils/utils_1.c parsing/utils_parse.c parsing/parse_config.c parsing/get_next_line.c
+	   parsing/func_utils/utils_1.c parsing/utils_parse.c parsing/parse_config.c parsing/get_next_line.c \
+	   parsing/func_utils/utils_2.c
 
 EXEC=
 

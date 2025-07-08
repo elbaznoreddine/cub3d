@@ -25,6 +25,6 @@ int	main(int ac, char **av)
 	
 	//game logic
 	
-	free_game(game);
+	// free_game(game);
 	return (0);
 }

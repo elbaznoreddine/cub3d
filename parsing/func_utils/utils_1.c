@@ -139,3 +139,52 @@ char	*ft_strncpy(char *dst, const char *src, size_t len)
 	dst[i] = '\0';
 	return (dst);
 }
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+int	ft_atoi(const char *str)
+{
+	int			i;
+	int	result;
+
+	i = 0;
+	result = 0;
+	if (str[i] == '+')
+		i++;
+	while (str[i] && (str[i] <= '9' && str[i] >= '0'))
+	{
+		result = result * 10 + (str[i] - '0');
+		if (result > 255)
+			return (-1);
+		i++;
+	}
+	if (str[i] == '\0')
+		return (result);
+	return (-1);
+}
+
+void	*ft_memset(void *str, int c, size_t len)
+{
+	unsigned char	*b;
+
+	b = (unsigned char *)str;
+	while (len--)
+	{
+		*b = (unsigned char)c;
+		b++;
+	}
+	return (str);
+}

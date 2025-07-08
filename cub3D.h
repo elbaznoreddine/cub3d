@@ -36,6 +36,9 @@ typedef struct s_game
 	void		*mlx;
 	void		*win;
 	void		*player;
+	double		direction;
+	unsigned int	ceil;
+	unsigned int	floor;
 	void		*img_north;
 	void		*img_south;
 	void		*img_east;
@@ -59,4 +62,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_game(t_game *game);
 void	free_config(t_config *config);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
+char	**ft_split(char const *s, char c);
+void	free_split(char **split);
+int	ft_atoi(const char *str);
+void	*ft_memset(void *str, int c, size_t len);
 #endif
