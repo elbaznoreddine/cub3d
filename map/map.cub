@@ -1,8 +1,8 @@
 NO texter/no.xpm
 SO texter/so.xpm
-WE texter/we.xpm
+WE texter/we.xpm       
 EA texter/ea.xpm
-F 220,100,10
+F 0,255,0 
 C 225,30,10
 
     1111111111111111111111111

@@ -29,24 +29,14 @@ int	validate_rgb(char **rgb)
 
 void	ft_fill_floor_ceil(t_game *game, char **rgb, int type)
 {
-	unsigned int	ceil;
-	unsigned int	floor;
-
 	if (type == 5) // floor
 	{
-		ft_memset(&floor, 0, 4);
-		ft_memset(&floor + 1, ft_atoi(rgb[0]), 3);
-		ft_memset(&floor + 1, ft_atoi(rgb[1]), 2);
-		ft_memset(&floor + 1, ft_atoi(rgb[2]), 1);
-		game->floor = floor;
+
+		game->floor = (ft_atoi(rgb[0]) << 16) | (ft_atoi(rgb[1]) << 8) | ft_atoi(rgb[2]);
 	}
-	else if (type == 6)
+	else if (type == 6) // ceil
 	{
-		ft_memset(&ceil, 0, 4);
-		ft_memset(&ceil + 1, ft_atoi(rgb[0]), 3);
-		ft_memset(&ceil + 1, ft_atoi(rgb[1]), 2);
-		ft_memset(&ceil + 1, ft_atoi(rgb[2]), 1);
-		game->ceil = ceil;
+		game->ceil = (ft_atoi(rgb[0]) << 16) | (ft_atoi(rgb[1]) << 8) | ft_atoi(rgb[2]);;
 	}
 }
 

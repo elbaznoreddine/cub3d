@@ -5,6 +5,19 @@
 // 	system("leaks cub3D");
 // }
 
+void put_big_pixel(void *mlx, void *win, int x, int y, int size, int color)
+{
+	int i, j;
+
+	for (i = 0; i < size; i++)
+	{
+		for (j = 0; j < size; j++)
+		{
+			mlx_pixel_put(mlx, win, x + i, y + j, color);
+		}
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_game	*game;
@@ -22,7 +35,16 @@ int	main(int ac, char **av)
 		free_game(game);
 		return (write(2, "Parse: The config not valid\n", 28), 1);
 	}
-	
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (0);
+	game->win = mlx_new_window(game->mlx, 1000,
+			1000, "cub3D");
+	if (!game->win)
+		return (0);
+	put_big_pixel(game->mlx, game->win, 100, 100, 50, game->floor);
+	// mlx_pixel_put(game->mlx, game->win, 100, 100, game->floor);
+	mlx_loop(game->mlx);
 	//game logic
 	
 	// free_game(game);
