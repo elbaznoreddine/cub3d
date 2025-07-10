@@ -66,4 +66,5 @@ char	**ft_split(char const *s, char c);
 void	free_split(char **split);
 int	ft_atoi(const char *str);
 void	*ft_memset(void *str, int c, size_t len);
+void	print_all_map(t_game *game);
 #endif

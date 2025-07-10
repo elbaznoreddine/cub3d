@@ -1,6 +1,6 @@
 NAME=cub3D
-MFLAGS = -lmlx -framework OpenGL -framework Appkit
-FLAGS= #-Werror -Wextra -Wall #-fsanitize=address -g
+# MFLAGS = -lmlx -framework OpenGL -framework Appkit
+FLAGS= -Werror -Wextra -Wall -fsanitize=address -g
 
 PARSE= main.c\
 	   parsing/func_utils/utils_1.c parsing/utils_parse.c parsing/parse_config.c parsing/get_next_line.c \

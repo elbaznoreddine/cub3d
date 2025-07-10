@@ -31,12 +31,11 @@ void	ft_fill_floor_ceil(t_game *game, char **rgb, int type)
 {
 	if (type == 5) // floor
 	{
-
 		game->floor = (ft_atoi(rgb[0]) << 16) | (ft_atoi(rgb[1]) << 8) | ft_atoi(rgb[2]);
 	}
 	else if (type == 6) // ceil
 	{
-		game->ceil = (ft_atoi(rgb[0]) << 16) | (ft_atoi(rgb[1]) << 8) | ft_atoi(rgb[2]);;
+		game->ceil = (ft_atoi(rgb[0]) << 16) | (ft_atoi(rgb[1]) << 8) | ft_atoi(rgb[2]);
 	}
 }
 
@@ -59,8 +58,9 @@ int are_valid_to_store_f_c(t_game *game, char *direction, int type)
 	if (validate_rgb(arr))
 		return (free_split(arr), 1);
 	ft_fill_floor_ceil(game, arr, type);
-	return (0);
+	return (free_split(arr), 0);
 }
+
 int	put_into_struct(char *direction, int type, t_config *config, t_game *game)
 {
 	if (type == 1)
@@ -107,30 +107,41 @@ int	put_into_struct(char *direction, int type, t_config *config, t_game *game)
 	}
 	return (0);
 }
+
+int	is_config(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'W' || c == 'E' || c == 'F' || c == 'C')
+		return (1);
+	return (0);
+}
+
 int	extract_direction(char *line)
 {
 	size_t	i;
 
 	i = 0;
-	if (line[0] == '1')
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (!is_config(line[i]))
 		return (0);
 	if (line[i] != '\0')
 	{
-		if (!ft_strncmp(line, "NO", 2))
+		if (!ft_strncmp(line + i, "NO", 2))
 			return (1);
-		if (!ft_strncmp(line, "SO", 2))
+		if (!ft_strncmp(line + i, "SO", 2))
 			return (2);
-		if (!ft_strncmp(line, "WE", 2))
+		if (!ft_strncmp(line + i, "WE", 2))
 			return (3);
-		if (!ft_strncmp(line, "EA", 2))
+		if (!ft_strncmp(line + i, "EA", 2))
 			return (4);
-		if (!ft_strncmp(line, "F", 1))
+		if (!ft_strncmp(line + i, "F", 1))
 			return (5);
-		if (!ft_strncmp(line, "C", 1))
+		if (!ft_strncmp(line + i, "C", 1))
 			return (6);
 	}
 	return (-1);
 }
+
 int	init_config(t_config *config)
 {
 	config->path_north = NULL;
@@ -141,6 +152,7 @@ int	init_config(t_config *config)
 	config->ceil = NULL;
 	return (1);
 }
+
 int	validate_config(t_config *config)
 {
 	if (!config->path_north || !config->path_south || 
@@ -149,6 +161,7 @@ int	validate_config(t_config *config)
 		return (0);
 	return (1);
 }
+
 char	*extract_path(char *line)
 {
 	size_t	i;
@@ -157,6 +170,8 @@ char	*extract_path(char *line)
 	char	*path;
 
 	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
 	while (line[i] && line[i] != ' ')
 		i++;
 	while (line[i] && line[i] == ' ')
@@ -194,7 +209,7 @@ int	is_already_set(t_config *config, int type)
 	return (0);
 }
 
-int	ft_fill_config(t_game *game, int fd)
+int	ft_fill_config(t_game *game, int fd, char **first_map_line)
 {
 	char	*line;
 	char	*direction;
@@ -220,7 +235,7 @@ int	ft_fill_config(t_game *game, int fd)
 		}
 		if (type == 0)
 		{
-			free(line);
+			*first_map_line = line;
 			return (validate_config(game->config));
 		}
 		if (is_already_set(game->config, type))
@@ -235,27 +250,106 @@ int	ft_fill_config(t_game *game, int fd)
 			return (0);
 		}
 		if (!put_into_struct(direction, type, game->config, game))
-			return (free(line), 0);
+		{
+			free(direction);
+			free(line);
+			return (0);
+		}
 		free(line);
 	}
 	return (validate_config(game->config));
+}
+int	ft_fill_grid(t_game *game, char *map_lines, int map_height)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*line;
+
+	game->map->grid = malloc(sizeof(char *) * (map_height + 1));
+	if (!game->map->grid)
+		return (0);
+	game->map->height = map_height;
+	game->map->width = 0;
+	i = 0;
+	k = 0;
+	while (map_lines && map_lines[i] && k < map_height)
+	{
+		j = 0;
+		while (map_lines[j + i] && map_lines[j + i] != '\n')
+			j++;
+		if (j > game->map->width)
+			game->map->width = j;
+		line = ft_substr(map_lines, i, j);
+		if (!line)
+		{
+			while (k > 0)
+			{
+				k--;
+				free(game->map->grid[k]);
+			}
+			free(game->map->grid);
+			return (0);
+		}
+		game->map->grid[k] = line;
+		i += j;
+		if (map_lines[i] == '\n')
+			i++;
+		k++;
+	}
+	game->map->grid[k] = NULL;
+	return (1);
+}
+int	ft_fill_map(t_game *game, int fd, char *first_map_line)
+{
+	char	*line;
+	int		map_height = 1;
+	char	*map_lines;
+
+	if (!first_map_line)
+	{
+		return (0);
+	}
+	game->map = malloc(sizeof(t_map));
+	if (!game->map)
+		return (free(first_map_line), 0);
+	map_lines = ft_strdup(first_map_line);
+	while ((line = get_next_line(fd)))
+	{
+		if (!line || line[0] == '\0' || line[0] == '\n')
+		{
+			free(line);
+		}
+		map_lines = ft_strjoin(map_lines, line);
+		map_height++;
+		free(line);
+	}
+	if (!ft_fill_grid(game, map_lines, map_height))
+	{
+		free(map_lines);
+		return (0);
+	}
+	return (1);
 }
 
 int	ft_parse_config(t_game *game, char *map_name)
 {
 	int	fd;
+	char *first_map_line = NULL;
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 0)
 		return (free(game), 0);
-	if (!ft_fill_config(game, fd))
-		return (close(fd), 0);
-	close(fd);
-	if (game->config)
+
+	if (!ft_fill_config(game, fd, &first_map_line))
 	{
-		printf("[%s]\n[%s]\n[%s]\n[%s]\n[%s]\n[%s]\n",
-			game->config->floor, game->config->ceil, game->config->path_north, game->config->path_south, game->config->path_east, game->config->path_west);
+		if (first_map_line)
+			free(first_map_line);
+		return (close(fd), 0);
 	}
-	printf("[%u] [%u]\n", game->floor, game->ceil);
+	if (!ft_fill_map(game, fd, first_map_line))
+		return (close(fd), 0);
+	print_all_map(game);
+	close(fd);
 	return (1);
 }
