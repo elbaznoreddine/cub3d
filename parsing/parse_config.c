@@ -280,6 +280,18 @@ int	ft_fill_grid(t_game *game, char *map_lines, int map_height)
 			j++;
 		if (j > game->map->width)
 			game->map->width = j;
+		i += j;
+		if (map_lines[i] == '\n')
+			i++;
+		k++;
+	}
+	i = 0;
+	k = 0;
+	while (map_lines && map_lines[i] && k < map_height)
+	{
+		j = 0;
+		while (map_lines[j + i] && map_lines[j + i] != '\n')
+			j++;
 		line = ft_substr(map_lines, i, j);
 		if (!line)
 		{
@@ -290,6 +302,14 @@ int	ft_fill_grid(t_game *game, char *map_lines, int map_height)
 			}
 			free(game->map->grid);
 			return (0);
+		}
+		if (j < game->map->width)
+		{
+			int len = game->map->width - j;
+			while (len-- > 0)
+			{
+				line = ft_strjoin(line, " ");
+			}
 		}
 		game->map->grid[k] = line;
 		i += j;
@@ -319,6 +339,7 @@ int	ft_fill_map(t_game *game, int fd, char *first_map_line)
 		if (!line || line[0] == '\0' || line[0] == '\n')
 		{
 			free(line);
+			return (free(map_lines), 0);
 		}
 		map_lines = ft_strjoin(map_lines, line);
 		map_height++;
@@ -329,9 +350,95 @@ int	ft_fill_map(t_game *game, int fd, char *first_map_line)
 		free(map_lines);
 		return (0);
 	}
+	free(map_lines);
+	free(first_map_line);
 	return (1);
 }
+void	put_direction_player(t_game *game, char	direction)
+{
+	if (direction == 'N')
+		game->direction = M_PI / 2;
+	if (direction == 'S')
+		game->direction = (3 * M_PI) / 2;
+	if (direction == 'W')
+		game->direction = M_PI;
+	if (direction == 'E')
+		game->direction = 0;
+}
+int	validate_map(t_game *game, t_map *map)
+{
+	int	i;
+	int	j;
+	int	len_player;
 
+	if (!map || !map->grid || map->height <= 0 || map->width <= 0)
+		return (0);
+	i = 0;
+	len_player = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (map->grid[i][j] != '1' && map->grid[i][j] != '0' &&
+				map->grid[i][j] != 'N' && map->grid[i][j] != 'S' &&
+				map->grid[i][j] != 'E' && map->grid[i][j] != 'W' &&
+				map->grid[i][j] != ' ')
+			{
+				return (0);
+			}
+			if (map->grid[i][j] == 'N' || map->grid[i][j] == 'S' ||
+				map->grid[i][j] == 'E' || map->grid[i][j] == 'W')
+			{
+				put_direction_player(game, map->grid[i][j]);
+				len_player++;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (len_player != 1)
+	{
+		return (0);
+	}
+	return (1);
+}
+int	validate_dimensions(t_map *map)
+{
+	int	i;
+	int	j;
+
+	if (!map || !map->grid || map->height <= 0 || map->width <= 0)
+		return (0);
+	i = 0;
+
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (i == 0 || i == map->height - 1)
+			{
+				if (map->grid[i][j] != '1' && map->grid[i][j] != ' ')
+					return (0);
+			}
+			else if (j == 0 || j == map->width - 1)
+			{
+				if (map->grid[i][j] != '1' && map->grid[i][j] != ' ')
+					return (0);
+			}
+			if (map->grid[i][j] == ' ' && (
+                (j < map->width - 1 && map->grid[i][j + 1] == '0') ||
+                (j > 0 && map->grid[i][j - 1] == '0') ||
+                (i < map->height - 1 && map->grid[i + 1][j] == '0') ||
+                (i > 0 && map->grid[i - 1][j] == '0')))
+                return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
 int	ft_parse_config(t_game *game, char *map_name)
 {
 	int	fd;
@@ -349,6 +456,19 @@ int	ft_parse_config(t_game *game, char *map_name)
 	}
 	if (!ft_fill_map(game, fd, first_map_line))
 		return (close(fd), 0);
+	if (!game->map || !game->config)
+	{
+		free(first_map_line);
+		return (close(fd), 0);
+	}
+	if (!validate_map(game, game->map))
+	{
+		return (close(fd), 0);
+	}
+	if (!validate_dimensions(game->map))
+	{
+		return (close(fd), 0);
+	}
 	print_all_map(game);
 	close(fd);
 	return (1);

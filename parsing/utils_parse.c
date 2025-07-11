@@ -56,6 +56,7 @@ void	print_all_map(t_game *game)
 	printf("Ceil Color: %s\n", game->config->ceil);
 	printf("Map Height: %d\n", game->map->height);
 	printf("Map Width: %d\n", game->map->width);
+	printf("Player dierction: %f\n", game->direction);
 	for (int i = 0; game->map->grid[i]; i++)
 	{
 		printf("Map Line %d: [%s]\n", i + 1, game->map->grid[i]);

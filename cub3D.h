@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <math.h>
 # include <mlx.h>
 
 # ifndef BUFFER_SIZE
