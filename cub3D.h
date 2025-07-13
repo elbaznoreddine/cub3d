@@ -57,7 +57,7 @@ char	*ft_strdup(char *s);
 // parsing map
 int	ft_check_map_extension(char *exten);
 int	init_game(t_game **game);
-int	ft_parse_config(t_game *game, char *map_name);
+int	parse_complete_map_file(t_game *game, char *map_filename);
 char	*get_next_line(int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	free_game(t_game *game);

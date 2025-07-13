@@ -17,10 +17,32 @@ int	ft_check_map_extension(char *exten)
 	return (0);
 }
 
+void	free_map(t_map *map)
+{
+	int i;
+	
+	if (!map)
+		return;
+
+	if (map->grid)
+	{
+		i = 0;
+		while (i < map->height)
+		{
+			if (map->grid[i])
+				free(map->grid[i]);
+			i++;
+		}
+		free(map->grid);
+	}
+	free(map);
+}
+
 void	free_config(t_config *config)
 {
 	if (!config)
 		return;
+
 	if (config->path_north)
 		free(config->path_north);
 	if (config->path_south)
@@ -33,6 +55,7 @@ void	free_config(t_config *config)
 		free(config->floor);
 	if (config->ceil)
 		free(config->ceil);
+	
 	free(config);
 }
 
@@ -40,7 +63,11 @@ void	free_game(t_game *game)
 {
 	if (!game)
 		return;
-	free_config(game->config);
+	
+	if (game->map)
+		free_map(game->map);
+	if (game->config)
+		free_config(game->config);
 	free(game);
 }
 
@@ -57,6 +84,7 @@ void	print_all_map(t_game *game)
 	printf("Map Height: %d\n", game->map->height);
 	printf("Map Width: %d\n", game->map->width);
 	printf("Player dierction: %f\n", game->direction);
+	printf("Player position (%d,%d)\n", game->map->player_x, game->map->player_y);
 	for (int i = 0; game->map->grid[i]; i++)
 	{
 		printf("Map Line %d: [%s]\n", i + 1, game->map->grid[i]);
