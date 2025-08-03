@@ -5,6 +5,8 @@ int	init_game(t_game **game)
 	*game = malloc(sizeof(t_game));
 	if (!*game)
 		return (0);
+	(*game)->map = NULL;
+	(*game)->config = NULL;
 	return (1);
 }
 int	ft_check_map_extension(char *exten)
