@@ -22,7 +22,7 @@ int	are_rgb_values_valid(char **rgb_array)
 			return (1);
 		i++;
 	}
-	if (i > 3)
+	if (i > 3 || i < 3)
 		return (1);
 	return (0);
 }
