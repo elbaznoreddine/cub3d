@@ -9,6 +9,7 @@ int	init_game(t_game **game)
 	(*game)->config = NULL;
 	return (1);
 }
+
 int	ft_check_map_extension(char *exten)
 {
 	size_t	len;
@@ -21,11 +22,10 @@ int	ft_check_map_extension(char *exten)
 
 void	free_map(t_map *map)
 {
-	int i;
-	
-	if (!map)
-		return;
+	int	i;
 
+	if (!map)
+		return ;
 	if (map->grid)
 	{
 		i = 0;
@@ -43,8 +43,7 @@ void	free_map(t_map *map)
 void	free_config(t_config *config)
 {
 	if (!config)
-		return;
-
+		return ;
 	if (config->path_north)
 		free(config->path_north);
 	if (config->path_south)
@@ -57,15 +56,13 @@ void	free_config(t_config *config)
 		free(config->floor);
 	if (config->ceil)
 		free(config->ceil);
-	
 	free(config);
 }
 
 void	free_game(t_game *game)
 {
 	if (!game)
-		return;
-	
+		return ;
 	if (game->map)
 		free_map(game->map);
 	if (game->config)
