@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:22 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/30 14:40:47 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:02:39 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,6 @@ void	h_p(t_list *list, double v, double *y, double *x)
 	else
 		list->ystep = list->tail;
 	list->xstep = list->ystep / tan(v);
-	if (list->left && list->xstep > 0)
-		list->xstep *= -1;
-	if (!list->left && list->xstep < 0)
-		list->xstep *= -1;
 }
 
 void	v_p(t_list *list, double v, double *y, double *x)
@@ -94,8 +90,4 @@ void	v_p(t_list *list, double v, double *y, double *x)
 	else
 		list->xstep = list->tail * -1;
 	list->ystep = list->xstep * tan(v);
-	if (list->up && list->ystep > 0)
-		list->ystep *= -1;
-	if (!list->up && list->ystep < 0)
-		list->ystep *= -1;
 }

@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:19:23 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 09:25:32 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:22:33 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ void	move(mlx_key_data_t keydata, void	*param)
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 		exit(0);
 	if (move0(list) || move1(list) || move11(list) || move2(list))
-		draw_map1(list);
+		return ;
 }

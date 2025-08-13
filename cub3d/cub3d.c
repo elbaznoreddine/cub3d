@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:49:41 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 09:40:15 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:42:57 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ t_list	*list_init(char **ptr)
 	if (!list)
 		return (NULL);
 	list->tail = 64;
-	list->rows = 11;
+	list->rows = 20;
 	list->cols = 17;
 	list->line = ft_split(*ptr);
+	list->w = 1280;
+	list->h = 720;
 	list->ww = list->tail * list->cols;
 	list->wh = list->tail * list->rows;
-	list->mlx = mlx_init(list->ww, list->wh, "cub3D", true);
+	list->mlx = mlx_init(list->w, list->h, "cub3D", true);
 	mlx_set_setting(MLX_MAXIMIZED, true);
-	list->win = mlx_new_image(list->mlx, list->ww, list->wh);
+	list->win = mlx_new_image(list->mlx, list->w, list->h);
 	mlx_image_to_window(list->mlx, list->win, 0, 0);
 	list->pi = M_PI;
 	list->fov = 60 * (list->pi / 180);
 	list->v = 3 * list->pi / 2;
-	list->mspeed = 20;
-	list->rspeed = 20 * (list->pi / 180);
+	list->mspeed = 7;
+	list->rspeed = 2 * (list->pi / 180);
 	list->vy = sin(list->v);
 	list->vx = cos(list->v);
-	list->f = 1;
 	return (list);
 }
 
@@ -75,11 +76,21 @@ int	is_wall(t_list *list, double y, double x)
 	return (0);
 }
 
+void	anime(void	*param)
+{
+	t_list			*list;
+
+	list = param;
+	(move0(list), move1(list), move11(list), move2(list), draw_p(list));
+}
+
 int	logic(t_list *list, char **str)
 {
 	list = list_init(str);
+	list->f = 1;
 	draw_p0(list);
 	mlx_key_hook(list->mlx, &move, list);
+	mlx_loop_hook(list->mlx, &anime, list);
 	mlx_loop(list->mlx);
 	mlx_terminate(list->mlx);
 	return (0);

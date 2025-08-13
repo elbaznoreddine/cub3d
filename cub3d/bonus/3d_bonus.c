@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 11:50:35 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:21:33 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,19 @@ void	draw_3dwall(t_list *list, int top, int down, int i)
 	int	z;
 
 	z = 0;
-	while (z < list->wh)
+	while (z < list->h / 2)
 	{
 		mlx_put_pixel(list->win, i, z, get_rgba(0, 0, 0, 255));
 		z++;
 	}
+	while (z < list->h)
+	{
+		mlx_put_pixel(list->win, i, z, get_rgba(255, 0, 0, 255));
+		z++;
+	}
 	while (top < down)
 	{
-		mlx_put_pixel(list->win, i, top, get_rgba(255, 0, 0, 255));
+		mlx_put_pixel(list->win, i, top, get_rgba(255, 255, 255, 255));
 		top++;
 	}
 }
@@ -38,15 +43,15 @@ void	draw_3d(t_list *list, double d, double v, int i)
 	int		down;
 
 	d *= cos(v - list->v);
-	dp = (list->ww / 2) / tan(list->fov / 2);
+	dp = (list->w / 2) / tan(list->fov / 2);
 	wh = (list->tail / d) * dp;
 	wsh = (int)wh;
-	top = (list->wh / 2) - (wsh / 2);
+	top = (list->h / 2) - (wsh / 2);
 	if (top < 0)
 		top = 0;
-	down = (list->wh / 2) + (wsh / 2);
-	if (down > list->wh)
-		down = list->wh;
+	down = (list->h / 2) + (wsh / 2);
+	if (down > list->h)
+		down = list->h;
 	draw_3dwall(list, top, down, i);
 }
 
@@ -79,6 +84,64 @@ void	draw_wall(t_list *list, double v, double i)
 	draw_3d(list, d, v, i);
 }
 
+void	draw_miniplayer(t_list	*list)
+{
+	double	i;
+	double	j;
+	double	x;
+
+	j = 195;
+	while (j <= 205)
+	{
+		i = 195;
+		while (i++ <= 205)
+			mlx_put_pixel(list->win, i * list->f, j * list->f, \
+			get_rgba(255, 0, 0, 255));
+		j++;
+	}
+	x = 0;
+	j = 200;
+	i = 200;
+	while (x++ <= 50)
+	{
+		if (is_wall(list, list->py + j - 200, list->px + i - 200))
+			break ;
+		mlx_put_pixel(list->win, i * list->f, j * list->f, \
+		get_rgba(255, 0, 0, 255));
+		i += cos(list->v);
+		j += sin(list->v);
+	}
+}
+
+void	draw_minimap(t_list *list)
+{
+	double	y;
+	double	x;
+	double	i;
+	double	j;
+
+	i = 0;
+	j = 0;
+	y = list->py - 200;
+	x = list->px - 200;
+	while (j <= 400)
+	{
+		(1 && (i = 0, x = list->px - 200));
+		while (i++ <= 400)
+		{
+			if (is_wall(list, y, x))
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(0, 0, 0, 255));
+			else
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(128, 128, 128, 255));
+			x++;
+		}
+		(1 && j++, y++);
+	}
+	draw_miniplayer(list);
+}
+
 void	draw_p(t_list *list)
 {
 	double	x;
@@ -86,10 +149,9 @@ void	draw_p(t_list *list)
 	double	i;
 	double	v;
 
-	draw_cir(list);
 	i = 0;
 	v = list->v - (list->fov / 2);
-	while (i < list->ww)
+	while (i < list->w)
 	{
 		reset_ang(list, &v);
 		y = 0;
@@ -102,8 +164,8 @@ void	draw_p(t_list *list)
 		(h_p(list, v, &y, &x), h_dda(list, y, x));
 		(v_p(list, v, &y, &x), v_dda(list, y, x));
 		draw_wall(list, v, i);
-		v += (list->fov / list->ww);
+		v += (list->fov / list->w);
 		i++;
 	}
-	draw_map0(list);
+	draw_minimap(list);
 }

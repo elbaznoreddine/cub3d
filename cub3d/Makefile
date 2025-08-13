@@ -6,7 +6,7 @@
 #    By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/05 11:46:20 by yzoullik          #+#    #+#              #
-#    Updated: 2025/07/31 09:42:24 by yzoullik         ###   ########.fr        #
+#    Updated: 2025/08/13 10:44:39 by yzoullik         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCB =	bonus/cub3d_bonus.c\
 		bonus/get_next_line_utils_bonus.c\
 		bonus/split_bonus.c\
 		bonus/draw_bonus.c\
+		bonus/draw0_bonus.c\
 		bonus/move_bonus.c\
 		bonus/dda_bonus.c\
 		bonus/minimap_bonus.c\
@@ -43,9 +44,9 @@ OBJB = $(SRCB:.c=.o)
 
 MLX_DIR = /mnt/homes/yzoullik/Documents/MLX42
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror # -g3 -fsanitize=address
 
-# MLXFLAGS = MLX42/build/libmlx42.a  -Iinclude -ldl -lglfw -pthread -lm
+# MLXFLAGS = MLX42/build/libmlx42.a  -Iinclude -ldl -lglfw -pthread -lmws
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/yzoullik/.brew/opt/glfw/lib"
 
 all: $(NAME)

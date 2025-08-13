@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:46:43 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 09:43:55 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:42:12 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_list
 	double		hwally;
 	double		hwallx;
 	double		f;
+	double		w;
+	double		h;
 }				t_list;
 
 char	*get_next_line(int fd);
@@ -70,6 +72,7 @@ int		parsmap(char *ptr);
 void	move(mlx_key_data_t keydata, void	*param);
 int		move0(t_list *list);
 int		move1(t_list *list);
+int		move11(t_list *list);
 int		move2(t_list *list);
 void	draw_p0(t_list *list);
 void	draw_p(t_list *list);

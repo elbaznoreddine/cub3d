@@ -1,56 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3d.c                                               :+:      :+:    :+:   */
+/*   draw0_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/03 12:45:30 by yzoullik         ###   ########.fr       */
+/*   Created: 2025/07/31 13:06:16 by yzoullik          #+#    #+#             */
+/*   Updated: 2025/07/31 17:01:25 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-void	draw_3dwall(t_list *list, int top, int down, int i)
-{
-	int	z;
-
-	z = 0;
-	while (z < list->h)
-	{
-		mlx_put_pixel(list->win, i, z, get_rgba(0, 0, 0, 255));
-		z++;
-	}
-	while (top < down)
-	{
-		mlx_put_pixel(list->win, i, top, get_rgba(255, 0, 0, 255));
-		top++;
-	}
-}
-
-void	draw_3d(t_list *list, double d, double v, int i)
-{
-	double	dp;
-	double	wh;
-	int		wsh;
-	int		top;
-	int		down;
-
-	d *= cos(v - list->v);
-	dp = (list->w / 2) / tan(list->fov / 2);
-	wh = (list->tail / d) * dp;
-	wsh = (int)wh;
-	top = (list->h / 2) - (wsh / 2);
-	if (top < 0)
-		top = 0;
-	down = (list->h / 2) + (wsh / 2);
-	if (down > list->h)
-		down = list->h;
-	draw_3dwall(list, top, down, i);
-}
-
-void	draw_wall(t_list *list, double v, double i)
+void	draw_mini_wall(t_list *list)
 {
 	double	x;
 	double	y;
@@ -76,19 +38,20 @@ void	draw_wall(t_list *list, double v, double i)
 		y = list->vwally;
 		d = list->vd;
 	}
-	draw_3d(list, d, v, i);
+	draw_line0(list, y, x);
 }
 
-void	draw_p(t_list *list)
+void	draw_mini_p(t_list *list)
 {
 	double	x;
 	double	y;
 	double	i;
 	double	v;
 
+	draw_cir(list);
 	i = 0;
 	v = list->v - (list->fov / 2);
-	while (i < list->w)
+	while (i < list->ww)
 	{
 		reset_ang(list, &v);
 		y = 0;
@@ -100,8 +63,31 @@ void	draw_p(t_list *list)
 			list->left = 1;
 		(h_p(list, v, &y, &x), h_dda(list, y, x));
 		(v_p(list, v, &y, &x), v_dda(list, y, x));
-		draw_wall(list, v, i);
-		v += (list->fov / list->w);
+		draw_mini_wall(list);
+		v += (list->fov / list->ww);
 		i++;
 	}
+}
+
+void	draw_map0(t_list *list)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (list->line[y])
+	{
+		x = 0;
+		while (list->line[y][x])
+		{
+			if (list->line[y][x] == '1')
+				draw_1(x * list->tail, y * list->tail, list);
+			if (list->line[y][x] == '0' || list->line[y][x] == 'P')
+				draw_0(x * list->tail, y * list->tail, list);
+			x++;
+		}
+		y++;
+	}
+	draw_cir(list);
+	draw_mini_p(list);
 }
