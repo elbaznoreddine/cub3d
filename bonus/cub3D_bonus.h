@@ -1,5 +1,5 @@
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -81,8 +81,10 @@ typedef struct s_list
 	double		hwallx;
 	double		f;
 	double		w;
+	double		mouse_sens;
+	double		last_mouse_x;
 	double		h;
-	
+
 	mlx_texture_t *north_texture;
     mlx_texture_t *south_texture;
     mlx_texture_t *east_texture;
@@ -105,10 +107,19 @@ int		move0(t_list *list);
 int		move1(t_list *list);
 int		move11(t_list *list);
 int		move2(t_list *list);
-void	draw_p0(t_list *list);
-void	draw_p(t_list *list);
+void	draw_map(t_list *list);
+
+void	draw_1(int x, int y, t_list *list);
+void	draw_0(int x, int y, t_list *list);
+void	draw_line(t_list *list, double wally, double wallx, double v);
+void	draw_cir(t_list *list);
+
+void	draw_map0(t_list *list);
+void	draw_line0(t_list *list, double y, double x);
 
 void	draw_p(t_list *list);
+void	draw_map(t_list *list);
+void	draw_map1(t_list *list);
 int		is_wall(t_list *list, double y, double x);
 
 void	h_dda(t_list *list, double nexty, double nextx);
@@ -123,6 +134,8 @@ void	ft_free(char **ptr);
 void	set_var(t_list *list);
 void	reset_ang(t_list *list, double *v);
 
+int load_textures(t_list *list);
+void mouse(double xpos, double ypos, void *param);
 // utils function
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
