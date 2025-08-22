@@ -161,7 +161,7 @@ int		process_config_line(t_game *game, char *line, int *element_type,
 			char **first_map_line);
 int		check_config_completeness(t_config *config);
 int		read_entire_map_content(t_game *game, int fd, char *first_map_line);
-int		count_players_and_validate_chars(t_game *game, t_map *map);
+int		count_player(t_game *game, t_map *map);
 int		is_border_position(int i, int j, t_map *map);
 int		has_invalid_border_character(char c);
 int		space_touches_empty_cell(t_map *map, int i, int j);

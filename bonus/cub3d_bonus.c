@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:49:41 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 07:00:00 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/22 09:44:29 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ t_list	*list_init(t_game *game)
 	list->h = 720;
 	list->ww = list->tail * list->cols;
 	list->wh = list->tail * list->rows;
-	list->px = game->map->player_x;
-	list->py = game->map->player_y;
 	list->mlx = mlx_init(list->w, list->h, "cub3D", true);
 	mlx_set_setting(MLX_MAXIMIZED, true);
 	list->win = mlx_new_image(list->mlx, list->w, list->h);

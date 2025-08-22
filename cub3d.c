@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:49:41 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 07:00:09 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/22 09:37:08 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_list	*list_init(t_game *game)
 	list->rspeed = 2 * (list->pi / 180);
 	list->vy = sin(list->v);
 	list->vx = cos(list->v);
-	list->px = game->map->player_x;
-	list->py = game->map->player_y;
 	list->game = game;
 	return (list);
 }

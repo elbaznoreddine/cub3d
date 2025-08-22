@@ -19,28 +19,33 @@ int	is_player_character(char c)
 	return (0);
 }
 
-int	is_valid_map_character(char c)
+int	is_valid_map_character(char c, t_map *map, int y, int x)
 {
+	if (c == 'D')
+	{
+		if ((map->grid[y + 1][x] == '0' || map->grid[y - 1][x] == '0')
+			&& (map->grid[y][x + 1] == '0' || map->grid[y][x - 1] == '0'))
+			return (0);
+	}
 	if (c != '1' && c != '0' && c != 'N' && c != 'S'
 		&& c != 'E' && c != 'W' && c != ' ' && c != 'D')
 		return (0);
 	return (1);
 }
 
-int	count_players_and_validate_chars(t_game *game, t_map *map)
+int	count_player(t_game *game, t_map *map)
 {
 	int	i;
 	int	j;
 	int	player_count;
 
-	i = 0;
-	player_count = 0;
-	while (i < map->height)
+	(1) && (i = -1, player_count = 0);
+	while (++i < map->height)
 	{
 		j = 0;
 		while (j < map->width)
 		{
-			if (!is_valid_map_character(map->grid[i][j]))
+			if (!is_valid_map_character(map->grid[i][j], map, i, j))
 				return (-1);
 			if (is_player_character(map->grid[i][j]))
 			{
@@ -51,7 +56,6 @@ int	count_players_and_validate_chars(t_game *game, t_map *map)
 			}
 			j++;
 		}
-		i++;
 	}
 	return (player_count);
 }

@@ -33,7 +33,7 @@ int	validate_map_content(t_game *game, t_map *map)
 
 	if (!map || !map->grid || map->height <= 0 || map->width <= 0)
 		return (0);
-	player_count = count_players_and_validate_chars(game, map);
+	player_count = count_player(game, map);
 	if (player_count != 1)
 		return (0);
 	return (1);

@@ -1,6 +1,6 @@
 #include "../cub3D.h"
 
-char	*pad_map_line_with_spaces(char *line, int current_length, int max_width)
+char	*make_spaces(char *line, int current_length, int max_width)
 {
 	int	spaces_needed;
 
@@ -13,7 +13,7 @@ char	*pad_map_line_with_spaces(char *line, int current_length, int max_width)
 	return (line);
 }
 
-int	extract_and_store_map_line(t_game *game, char *map_content, int *position,
+int	store_map_line(t_game *game, char *map_content, int *position,
 	int line_index)
 {
 	int		j;
@@ -26,7 +26,7 @@ int	extract_and_store_map_line(t_game *game, char *map_content, int *position,
 	if (!line)
 		return (0);
 	if (j < game->map->width)
-		line = pad_map_line_with_spaces(line, j, game->map->width);
+		line = make_spaces(line, j, game->map->width);
 	game->map->grid[line_index] = line;
 	*position += j;
 	if (map_content[*position] == '\n')
@@ -59,7 +59,7 @@ int	calculate_map_dimensions(t_game *game, char *map_content, int map_height)
 	return (1);
 }
 
-int	fill_map_grid_with_content(t_game *game, char *map_content, int map_height)
+int	fill_map_grid(t_game *game, char *map_content, int map_height)
 {
 	int	position;
 	int	line_index;
@@ -71,7 +71,7 @@ int	fill_map_grid_with_content(t_game *game, char *map_content, int map_height)
 	(1) && (position = 0, line_index = 0);
 	while (map_content && map_content[position] && line_index < map_height)
 	{
-		if (!extract_and_store_map_line(game, map_content, &position,
+		if (!store_map_line(game, map_content, &position,
 				line_index))
 		{
 			while (line_index > 0)
@@ -109,7 +109,7 @@ int	read_entire_map_content(t_game *game, int fd, char *first_map_line)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (!fill_map_grid_with_content(game, map_content, map_height))
+	if (!fill_map_grid(game, map_content, map_height))
 		return (free(map_content), 0);
 	free(map_content);
 	return (1);

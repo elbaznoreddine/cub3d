@@ -27,13 +27,13 @@ int	validate_map_boundaries(t_map *map)
 	return (1);
 }
 
-int	validate_map_content(t_game *game, t_map *map)
+int	validate_map(t_game *game, t_map *map)
 {
 	int	player_count;
 
 	if (!map || !map->grid || map->height <= 0 || map->width <= 0)
 		return (0);
-	player_count = count_players_and_validate_chars(game, map);
+	player_count = count_player(game, map);
 	if (player_count != 1)
 		return (0);
 	return (1);
@@ -107,7 +107,7 @@ int	parse_complete_map_file(t_game *game, char *map_filename)
 		return (close(fd), 0);
 	if (!game->map || !game->config)
 		return (close(fd), 0);
-	if (!validate_map_content(game, game->map))
+	if (!validate_map(game, game->map))
 		return (close(fd), 0);
 	if (!validate_map_boundaries(game->map))
 		return (close(fd), 0);

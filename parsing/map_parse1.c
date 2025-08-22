@@ -27,7 +27,7 @@ int	is_valid_map_character(char c)
 	return (1);
 }
 
-int	count_players_and_validate_chars(t_game *game, t_map *map)
+int	count_player(t_game *game, t_map *map)
 {
 	int	i;
 	int	j;

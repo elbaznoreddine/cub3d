@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 03:48:51 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/22 09:52:25 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ void draw_3dwall(t_list *list, int top, int down, int i, double v)
     z = 0;
     while (z < list->h / 2)
 	{
-        mlx_put_pixel(list->win, i, z, get_rgba(200, 200, 200, 255));
+        mlx_put_pixel(list->win, i, z, list->game->ceil);
         z++;
     }
     while (z < list->h)
 	{
-        mlx_put_pixel(list->win, i, z, get_rgba(110, 110, 120, 255));
+        mlx_put_pixel(list->win, i, z, list->game->floor);
         z++;
     }
     draw_wall_texture(list, i, top, down, v);
