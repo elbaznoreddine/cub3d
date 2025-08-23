@@ -14,7 +14,7 @@ void	store_color(t_game *game, char **rgb_array, int color_type)
 	}
 }
 
-int	has_consecutive_commas(char *color_string)
+int	valid_commas(char *color_string)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ int	validate_color(t_game *game, char *color_string, int color_type)
 {
 	char	**rgb_array;
 
-	if (has_consecutive_commas(color_string))
+	if (valid_commas(color_string))
 		return (1);
 	rgb_array = ft_split(color_string, ',');
 	if (!rgb_array)
