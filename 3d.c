@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/22 10:05:11 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:20:02 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,25 +125,30 @@ void draw_3dwall(t_list *list, int top, int down, int i, double v)
     draw_wall_texture(list, i, top, down, v);
 }
 
-void draw_3d(t_list *list, double d, double v, int i)
+void	draw_3d(t_list *list, double d, double v, int i)
 {
-    double dp;
-    double wh;
-    int wsh;
-    int top;
-    int down;
+	double	dp;
+	double	wh;
+	int		wsh;
+	int		top;
+	int		down;
 
-    d *= cos(v - list->v);
-    dp = (list->w / 2) / tan(list->fov / 2);
-    wh = (list->tail / d) * dp;
-    wsh = (int)wh;
-    top = (list->h / 2) - (wsh / 2);
-    // if (top < 0)
-    //     top = 0;
-    down = (list->h / 2) + (wsh / 2);
-    // if (down > list->h)
-    //     down = list->h;
-    draw_3dwall(list, top, down, i, v);
+	d *= cos(v - list->v);
+	dp = (list->w / 2) / tan(list->fov / 2);
+	wh = (list->tail / d) * dp;
+	wsh = (int)wh;
+	top = (list->h / 2) - (wsh / 2);
+	// if (top < 0)
+	// 	top = 0;
+	down = (list->h / 2) + (wsh / 2);
+	// if (down > list->h)
+	// 	down = list->h;
+	if (wsh <= 1)
+	{
+		top = list->h / 2;
+		down = top + 1;
+	}
+	draw_3dwall(list, top, down, i, v);
 }
 
 void	draw_wall(t_list *list, double v, double i)

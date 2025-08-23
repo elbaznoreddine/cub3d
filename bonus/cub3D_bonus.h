@@ -89,6 +89,7 @@ typedef struct s_list
     mlx_texture_t *south_texture;
     mlx_texture_t *east_texture;
     mlx_texture_t *west_texture;
+    mlx_texture_t *door_texture;
     int tex_width;
     int tex_height;
 	t_game	*game;
@@ -107,19 +108,16 @@ int		move0(t_list *list);
 int		move1(t_list *list);
 int		move11(t_list *list);
 int		move2(t_list *list);
-void	draw_map(t_list *list);
+void	draw_p(t_list *list);
+void	draw_p0(t_list *list);
 
-void	draw_1(int x, int y, t_list *list);
-void	draw_0(int x, int y, t_list *list);
-void	draw_line(t_list *list, double wally, double wallx, double v);
-void	draw_cir(t_list *list);
+void	draw_minimap(t_list *list);
+void	anime(void	*param);
+int		to_move(t_list *list, double y, double x);
 
-void	draw_map0(t_list *list);
 void	draw_line0(t_list *list, double y, double x);
 
 void	draw_p(t_list *list);
-void	draw_map(t_list *list);
-void	draw_map1(t_list *list);
 int		is_wall(t_list *list, double y, double x);
 
 void	h_dda(t_list *list, double nexty, double nextx);
@@ -133,6 +131,7 @@ void	ft_free(char **ptr);
 
 void	set_var(t_list *list);
 void	reset_ang(t_list *list, double *v);
+int		is_door(t_list *list);
 
 int load_textures(t_list *list);
 void mouse(double xpos, double ypos, void *param);

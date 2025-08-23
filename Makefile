@@ -1,6 +1,18 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/05 11:46:20 by yzoullik          #+#    #+#              #
+#    Updated: 2025/08/23 13:24:43 by noel-baz         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME=cub3D
 # MFLAGS = -lmlx -framework OpenGL -framework Appkit
-FLAGS= -Werror -Wextra -Wall -fsanitize=address -g
+FLAGS= -Werror -Wextra -Wall -fsanitize=address -g3
 MLX_DIR = /mnt/homes/noel-baz/Documents/MLX42
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/noel-baz/.brew/opt/glfw/lib"
 

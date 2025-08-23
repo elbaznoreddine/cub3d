@@ -19,6 +19,8 @@ int	has_consecutive_commas(char *color_string)
 	int	i;
 
 	i = 0;
+	if (color_string[0] == ',')
+		return (1);
 	while (color_string[i])
 	{
 		if (color_string[i] && color_string[i] == ','
@@ -26,6 +28,8 @@ int	has_consecutive_commas(char *color_string)
 			return (1);
 		i++;
 	}
+	if (color_string[i - 1] == ',')
+		return (1);
 	return (0);
 }
 

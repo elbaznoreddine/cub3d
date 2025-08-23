@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:19:23 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 03:18:06 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:11:46 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int	move0(t_list *list)
 {
 	if (mlx_is_key_down(list->mlx, MLX_KEY_W))
 	{
-		if (is_wall(list, list->py + (list->vy * list->mspeed), \
-		list->px + (list->vx * list->mspeed)))
+		if (!to_move(list, list->vy, list->vx))
 			return (0);
 		list->py += list->vy * list->mspeed;
 		list->px += list->vx * list->mspeed;
@@ -25,8 +24,7 @@ int	move0(t_list *list)
 	}
 	if (mlx_is_key_down(list->mlx, MLX_KEY_S))
 	{
-		if (is_wall(list, list->py - (list->vy * list->mspeed), \
-			list->px - (list->vx * list->mspeed)))
+		if (!to_move(list, -list->vy, -list->vx))
 			return (0);
 		list->py -= list->vy * list->mspeed;
 		list->px -= list->vx * list->mspeed;
@@ -46,8 +44,7 @@ int	move1(t_list *list)
 			ang -= 2 * list->pi;
 		if (ang < 0)
 			ang += 2 * list->pi;
-		if (is_wall(list, list->py + (sin(ang) * list->mspeed), \
-		list->px + (cos(ang) * list->mspeed)))
+		if (!to_move(list, sin(ang), cos(ang)))
 			return (0);
 		list->py += sin(ang) * list->mspeed;
 		list->px += cos(ang) * list->mspeed;
@@ -67,8 +64,7 @@ int	move11(t_list *list)
 			ang -= 2 * list->pi;
 		if (ang < 0)
 			ang += 2 * list->pi;
-		if (is_wall(list, list->py + (sin(ang) * list->mspeed), \
-		list->px + (cos(ang) * list->mspeed)))
+		if (!to_move(list, sin(ang), cos(ang)))
 			return (0);
 		list->py += sin(ang) * list->mspeed;
 		list->px += cos(ang) * list->mspeed;

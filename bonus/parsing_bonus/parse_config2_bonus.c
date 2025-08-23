@@ -37,7 +37,7 @@ char	*extract_file_path(char *line)
 	i = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
-	while (line[i] && line[i] != ' ')
+	while (line[i] && line[i] != ' ' )
 		i++;
 	while (line[i] && line[i] == ' ')
 		i++;

@@ -107,6 +107,7 @@ int		move11(t_list *list);
 int		move2(t_list *list);
 void	draw_p0(t_list *list);
 void	draw_p(t_list *list);
+int	to_move(t_list *list, double y, double x);
 
 void	draw_p(t_list *list);
 int		is_wall(t_list *list, double y, double x);

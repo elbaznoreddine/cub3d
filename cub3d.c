@@ -6,32 +6,11 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:49:41 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/22 09:37:08 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:17:11 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-int	parsmap(char *ptr)
-{
-	int		len;
-	int		i;
-	char	*ex;
-
-	len = ft_strlen(ptr) - 1;
-	ex = ".cub";
-	i = 3;
-	if (len > 3)
-	{
-		while (i >= 0)
-		{
-			if (ptr[len--] != ex[i--])
-				return (0);
-		}
-		return (1);
-	}
-	return (0);
-}
 
 t_list	*list_init(t_game *game)
 {
@@ -61,20 +40,6 @@ t_list	*list_init(t_game *game)
 	list->vx = cos(list->v);
 	list->game = game;
 	return (list);
-}
-
-int	is_wall(t_list *list, double y, double x)
-{
-	double	j;
-	double	i;
-
-	if (x < 0 || x > list->ww || y < 0 || y > list->wh)
-		return (1);
-	j = floor(y / list->tail);
-	i = floor(x / list->tail);
-	if (list->line[(int) j][(int) i] == '1')
-		return (1);
-	return (0);
 }
 
 void	anime(void	*param)

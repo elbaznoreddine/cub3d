@@ -10,25 +10,35 @@ int	is_valid_config_character(char c)
 int	identify_config_type(char *line)
 {
 	size_t	i;
+	size_t	j;
+	size_t	k;
 
 	i = 0;
+	j = 0;
+	k = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (!is_valid_config_character(line[i]))
 		return (0);
+	k = i;
 	if (line[i] != '\0')
 	{
-		if (!ft_strncmp(line + i, "NO", 2))
+		while (line[k] && line[k] != ' ')
+		{
+			j++;
+			k++;
+		}
+		if (!ft_strncmp(line + i, "NO", j))
 			return (1);
-		if (!ft_strncmp(line + i, "SO", 2))
+		if (!ft_strncmp(line + i, "SO", j))
 			return (2);
-		if (!ft_strncmp(line + i, "WE", 2))
+		if (!ft_strncmp(line + i, "WE", j))
 			return (3);
-		if (!ft_strncmp(line + i, "EA", 2))
+		if (!ft_strncmp(line + i, "EA", j))
 			return (4);
-		if (!ft_strncmp(line + i, "F", 1))
+		if (!ft_strncmp(line + i, "F", j))
 			return (5);
-		if (!ft_strncmp(line + i, "C", 1))
+		if (!ft_strncmp(line + i, "C", j))
 			return (6);
 	}
 	return (-1);

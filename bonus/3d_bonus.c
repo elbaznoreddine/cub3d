@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/22 09:52:25 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:08:15 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ mlx_texture_t *get_wall_texture(t_list *list, double ray_angle)
 
 	rayDirX = cos(ray_angle);
 	rayDirY = sin(ray_angle);
+	if (is_door(list))
+	{
+		return (list->door_texture);
+	}
     if (list->hd < list->vd)
         side = 1;
 	else
@@ -107,130 +111,98 @@ void	draw_wall_texture(t_list *list, int screen_x, int wall_top,
 	}
 }
 
-void draw_3dwall(t_list *list, int top, int down, int i, double v)
+void	draw_3dwall0(t_list *list, int top, int down, int i, double v)
 {
-    int	z;
+	// if (is_door(list))
+	// {
+	// 	if (top < 0)
+	// 		top = 0;
+	// 	if (down > list->h)
+	// 		down = list->h;
+	// 	while (top < down)
+	// 	{
+	// 		// printf("%d \n %d \n", i, top);
+	// 		mlx_put_pixel(list->win, i, top, get_rgba(0, 0, 255, 255));
+	// 		top++;
+	// 	}
+	// }
+	// else
+	// {
+		draw_wall_texture(list, i, top, down, v);
+	// }
+}
 
-    z = 0;
-    while (z < list->h / 2)
+void	draw_3dwall(t_list *list, int top, int down, int i, double v)
+{
+	int	z;
+
+	z = 0;
+	while (z < list->h / 2)
 	{
-        mlx_put_pixel(list->win, i, z, list->game->ceil);
-        z++;
-    }
-    while (z < list->h)
+		mlx_put_pixel(list->win, i, z, list->game->ceil);
+		z++;
+	}
+	while (z < list->h)
 	{
-        mlx_put_pixel(list->win, i, z, list->game->floor);
-        z++;
-    }
-    draw_wall_texture(list, i, top, down, v);
+		mlx_put_pixel(list->win, i, z, list->game->floor);
+		z++;
+	}
+	draw_3dwall0(list, top, down, i, v);
 }
 
-void draw_3d(t_list *list, double d, double v, int i)
+void	draw_3d(t_list *list, double d, double v, int i)
 {
-    double dp;
-    double wh;
-    int wsh;
-    int top;
-    int down;
+	double	dp;
+	double	wh;
+	int		wsh;
+	int		top;
+	int		down;
 
-    d *= cos(v - list->v);
-    dp = (list->w / 2) / tan(list->fov / 2);
-    wh = (list->tail / d) * dp;
-    wsh = (int)wh;
-    top = (list->h / 2) - (wsh / 2);
-    // if (top < 0)
-    //     top = 0;
-    down = (list->h / 2) + (wsh / 2);
-    // if (down > list->h)
-    //     down = list->h;
-    draw_3dwall(list, top, down, i, v);
+	d *= cos(v - list->v);
+	dp = (list->w / 2) / tan(list->fov / 2);
+	wh = (list->tail / d) * dp;
+	wsh = (int)wh;
+	top = (list->h / 2) - (wsh / 2);
+	// if (top < 0)
+	// 	top = 0;
+	down = (list->h / 2) + (wsh / 2);
+	// if (down > list->h)
+	// 	down = list->h;
+	if (wsh <= 1)
+	{
+		top = list->h / 2;
+		down = top + 1;
+	}
+	draw_3dwall(list, top, down, i, v);
 }
 
-void draw_wall(t_list *list, double v, double i)
+void	draw_wall(t_list *list, double v, double i)
 {
-    double x;
-    double y;
-    double d;
-
-    x = 0;
-    y = 0;
-    list->hd = 1000000;
-    list->vd = 1000000;
-    if (list->hhit)
-        list->hd = dis(list, list->hwally, list->hwallx);
-    if (list->vhit)
-        list->vd = dis(list, list->vwally, list->vwallx);
-    if (list->hd < list->vd)
-    {
-        x = list->hwallx;
-        y = list->hwally;
-        d = list->hd;
-    }
-    else
-    {
-        x = list->vwallx;
-        y = list->vwally;
-        d = list->vd;
-    }
-    draw_3d(list, d, v, i);
-}
-
-void	draw_miniplayer(t_list	*list)
-{
-	double	i;
-	double	j;
 	double	x;
-
-	j = 195;
-	while (j <= 205)
-	{
-		i = 195;
-		while (i++ <= 205)
-			mlx_put_pixel(list->win, i * list->f, j * list->f, \
-			get_rgba(255, 0, 0, 255));
-		j++;
-	}
-	x = 0;
-	j = 200;
-	i = 200;
-	while (x++ <= 50)
-	{
-		if (is_wall(list, list->py + j - 200, list->px + i - 200))
-			break ;
-		mlx_put_pixel(list->win, i * list->f, j * list->f, \
-		get_rgba(255, 0, 0, 255));
-		i += cos(list->v);
-		j += sin(list->v);
-	}
-}
-
-void	draw_minimap(t_list *list)
-{
 	double	y;
-	double	x;
-	double	i;
-	double	j;
+	double	d;
 
-	i = 0;
-	j = 0;
-	y = list->py - 200;
-	x = list->px - 200;
-	while (j <= 400)
+	x = 0;
+	y = 0;
+	list->hd = 1000000;
+	list->vd = 1000000;
+	if (list->hhit)
+		list->hd = dis(list, list->hwally, list->hwallx);
+	if (list->vhit)
+		list->vd = dis(list, list->vwally, list->vwallx);
+	if (list->hd < list->vd)
 	{
-		(1 && (i = 0, x = list->px - 200));
-		while (i++ <= 400)
-		{
-			if (is_wall(list, y, x))
-				mlx_put_pixel(list->win, i * list->f, j * list->f, \
-				get_rgba(0, 0, 0, 255));
-			else
-				mlx_put_pixel(list->win, i * list->f, j * list->f, \
-				get_rgba(128, 128, 128, 255));
-			x++;
-		}
-		(1 && j++, y++);
+		x = list->hwallx;
+		y = list->hwally;
+		d = list->hd;
 	}
-	draw_miniplayer(list);
+	else
+	{
+		x = list->vwallx;
+		y = list->vwally;
+		d = list->vd;
+	}
+	draw_3d(list, d, v, i);
 }
 
 void	draw_p(t_list *list)

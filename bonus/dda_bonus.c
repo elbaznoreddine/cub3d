@@ -6,7 +6,7 @@
 /*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:22 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 03:49:42 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:31:45 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	h_dda(t_list *list, double nexty, double nextx)
 		y = nexty;
 		if (list->up)
 			y -= 1;
+		else
+			y += 1;
 		if (nextx < 0 || nextx > list->ww || nexty < 0 || nexty > list->wh)
 			return ;
 		if (is_wall(list, y, x))
@@ -50,6 +52,8 @@ void	v_dda(t_list *list, double nexty, double nextx)
 		y = nexty;
 		if (list->left)
 			x -= 1;
+		else
+			x += 1;
 		if (nextx < 0 || nextx > list->ww || nexty < 0 || nexty > list->wh)
 			return ;
 		if (is_wall(list, y, x))
