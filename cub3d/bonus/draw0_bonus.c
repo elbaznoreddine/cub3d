@@ -6,88 +6,122 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:06:16 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 17:01:25 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:46:53 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	draw_mini_wall(t_list *list)
+int	countlen(int n)
 {
-	double	x;
-	double	y;
-	double	d;
+	int	len;
 
-	x = 0;
-	y = 0;
-	list->hd = 1000000;
-	list->vd = 1000000;
-	if (list->hhit)
-		list->hd = dis(list, list->hwally, list->hwallx);
-	if (list->vhit)
-		list->vd = dis(list, list->vwally, list->vwallx);
-	if (list->hd < list->vd)
+	len = 0;
+	if (n <= 0)
+		len = 1;
+	while (n != 0)
 	{
-		x = list->hwallx;
-		y = list->hwally;
-		d = list->hd;
+		n /= 10;
+		len++;
 	}
-	else
-	{
-		x = list->vwallx;
-		y = list->vwally;
-		d = list->vd;
-	}
-	draw_line0(list, y, x);
+	return (len);
 }
 
-void	draw_mini_p(t_list *list)
+char	*ft_itoa(int n)
 {
-	double	x;
-	double	y;
-	double	i;
-	double	v;
+	char			*ptr;
+	int				x;
+	unsigned int	num;
 
-	draw_cir(list);
-	i = 0;
-	v = list->v - (list->fov / 2);
-	while (i < list->ww)
+	x = countlen(n);
+	ptr = malloc((x + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	ptr[x] = '\0';
+	num = n;
+	if (n < 0)
 	{
-		reset_ang(list, &v);
-		y = 0;
-		x = 0;
-		set_var(list);
-		if (v > 0 && v < list->pi)
-			list->up = 0;
-		if ((v > list->pi / 2 && v < 3 * (list->pi / 2)))
-			list->left = 1;
-		(h_p(list, v, &y, &x), h_dda(list, y, x));
-		(v_p(list, v, &y, &x), v_dda(list, y, x));
-		draw_mini_wall(list);
-		v += (list->fov / list->ww);
-		i++;
+		ptr[0] = '-';
+		num = -n;
 	}
+	while (x > 0)
+	{
+		if (x == 1 && n < 0)
+			break ;
+		ptr[x - 1] = (num % 10) + '0';
+		num /= 10;
+		x--;
+	}
+	return (ptr);
 }
 
-void	draw_map0(t_list *list)
+void	anime0(t_list *list, mlx_texture_t	*texture)
 {
 	int	x;
 	int	y;
+	int	i;
 
 	y = 0;
-	while (list->line[y])
+	while (y < (int)texture->height)
 	{
 		x = 0;
-		while (list->line[y][x])
+		while (x < (int)texture->width)
 		{
-			if (list->line[y][x] == '1')
-				draw_1(x * list->tail, y * list->tail, list);
-			if (list->line[y][x] == '0' || list->line[y][x] == 'P')
-				draw_0(x * list->tail, y * list->tail, list);
+			i = (y * texture->width + x) * 4;
+			if (texture->pixels[i + 3] > 0)
+				mlx_put_pixel(list->win, x, y, \
+				((texture->pixels[i]) << 24) | ((texture->pixels[i + 1]) \
+				<< 16) | ((texture->pixels[i + 2]) \
+				<< 8) | texture->pixels[i + 3]);
 			x++;
 		}
 		y++;
 	}
-	draw_cir(list);
-	draw_mini_p(list);
+}
+
+void	anime(void	*param)
+{
+	t_list			*list;
+	static int		j;
+	char			*ptr;
+	mlx_texture_t	*texture;
+
+	list = param;
+	(move0(list), move1(list), move11(list), move2(list), draw_p(list));
+	j++;
+	ptr = ft_strjoin(ft_strdup("bonus/png/"), ft_itoa(j));
+	ptr = ft_strjoin(ptr, ".png");
+	texture = mlx_load_png(ptr);
+	anime0(list, texture);
+	if (j == 40)
+		j = 0;
+	mlx_delete_texture(texture);
+}
+
+int	to_move(t_list *list, double y, double x)
+{
+	int		i;
+	double	px;
+	double	py;
+
+	i = 0;
+	py = list->py;
+	px = list->px;
+	while (i < list->mspeed)
+	{
+		py += y;
+		px += x;
+		if (is_wall(list, py, px))
+			return (0);
+		if (is_wall(list, py + 1, px))
+			return (0);
+		if (is_wall(list, py - 1, px))
+			return (0);
+		if (is_wall(list, py, px + 1))
+			return (0);
+		if (is_wall(list, py, px - 1))
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -6,113 +6,91 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:26:12 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 09:25:30 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 10:45:15 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	draw_1(int x, int y, t_list *list)
+void	draw_miniplayer(t_list	*list)
 {
-	int	ey;
-	int	ex;
-	int	i;
+	double	i;
+	double	j;
+	double	x;
 
-	i = 1;
-	ey = y + list->tail;
-	ex = x + list->tail;
-	if (ey == 0)
-		ey = list->tail;
-	if (ex == 0)
-		ex = list->tail;
-	while (y + i < ey)
+	j = 195;
+	while (j <= 205)
 	{
-		if (ex == list->tail)
-			x = 0;
-		else
-			x = ex - list->tail;
-		while (x + i < ex)
-		{
-			mlx_put_pixel(list->win, x * list->f, y * list->f, \
-			get_rgba(0, 0, 0, 255));
-			x++;
-		}
-		y++;
+		i = 195;
+		while (i++ <= 205)
+			mlx_put_pixel(list->win, i * list->f, j * list->f, \
+			get_rgba(255, 0, 0, 255));
+		j++;
+	}
+	x = 0;
+	j = 200;
+	i = 200;
+	while (x++ <= 50)
+	{
+		if (is_wall(list, list->py + j - 200, list->px + i - 200))
+			break ;
+		mlx_put_pixel(list->win, i * list->f, j * list->f, \
+		get_rgba(255, 0, 0, 255));
+		i += cos(list->v);
+		j += sin(list->v);
 	}
 }
 
-void	draw_0(int x, int y, t_list *list)
-{
-	int	ey;
-	int	ex;
-	int	i;
-
-	i = 1;
-	ey = y + list->tail;
-	ex = x + list->tail;
-	if (ey == 0)
-		ey = list->tail;
-	if (ex == 0)
-		ex = list->tail;
-	while (y + i < ey)
-	{
-		if (ex == list->tail)
-			x = 0;
-		else
-			x = ex - list->tail;
-		while (x + i < ex)
-		{
-			mlx_put_pixel(list->win, x * list->f, y * list->f, \
-			get_rgba(255, 255, 255, 255));
-			x++;
-		}
-		y++;
-	}
-}
-
-void	draw_line(t_list *list, double wally, double wallx, double v)
+void	draw_minimap(t_list *list)
 {
 	double	y;
 	double	x;
-	double	vy;
-	double	vx;
+	double	i;
+	double	j;
 
-	y = list->py;
-	x = list->px;
-	vy = sin(v);
-	vx = cos(v);
-	(void)(wally);
-	(void)(wallx);
-	while (x >= 0 && x <= list->ww && y >= 0 && y <= list->wh)
+	i = 0;
+	j = 0;
+	y = list->py - 200;
+	x = list->px - 200;
+	while (j <= 400)
 	{
-		if (is_wall(list, y, x))
-			break ;
-		mlx_put_pixel(list->win, x * list->f, y * list->f, \
-		get_rgba(255, 0, 0, 255));
-		y -= vy;
-		x -= vx;
+		(1 && (i = 0, x = list->px - 200));
+		while (i++ <= 400)
+		{
+			if (is_wall(list, y, x))
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(0, 0, 0, 255));
+			else
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(128, 128, 128, 255));
+			x++;
+		}
+		(1 && j++, y++);
 	}
+	draw_miniplayer(list);
 }
 
-void	draw_cir(t_list *list)
+int	is_door(t_list *list)
 {
-	int	i;
-	int	r;
-	int	y;
-	int	x;
-
-	r = 0;
-	while (r < 6)
+	if (list->hd < list->vd)
 	{
-		i = 0;
-		while (i < 360)
-		{
-			x = r * cos(i * list->pi / 180);
-			y = r * sin(i * list->pi / 180);
-			mlx_put_pixel(list->win, (list->px + x) * list->f, \
-			(list->py + y) * list->f, get_rgba(255, 0, 0, 255));
-			i++;
-		}
-		r++;
+		if (list->up)
+			list->hwally -= 1;
+		else
+			list->hwally += 1;
+		if (list->line[(int) floor(list->hwally / list->tail)][(int) \
+		floor(list->hwallx / list->tail)] == 'D')
+			return (1);
 	}
+	else
+	{
+		if (list->left)
+			list->vwallx -= 1;
+		else
+			list->vwallx += 1;
+		if (list->line[(int) floor(list->vwally / list->tail)][(int) \
+		floor(list->vwallx / list->tail)] == 'D')
+			return (1);
+	}
+	return (0);
 }

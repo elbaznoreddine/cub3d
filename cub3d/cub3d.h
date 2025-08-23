@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:46:43 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/06 15:42:12 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:44:39 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	**ft_split(char const *s);
 void	ft_free(char **ptr);
 
 int		parsmap(char *ptr);
+int		to_move(t_list *list, double y, double x);
 void	move(mlx_key_data_t keydata, void	*param);
 int		move0(t_list *list);
 int		move1(t_list *list);

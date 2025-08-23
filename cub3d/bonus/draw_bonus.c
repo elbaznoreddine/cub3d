@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 16:00:32 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/06 15:22:18 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:41:29 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,4 @@ void	draw_p0(t_list *list)
 		}
 		y++;
 	}
-}
-
-void	draw_map(t_list *list)
-{
-	draw_p0(list);
-}
-
-void	draw_map1(t_list *list)
-{
-	draw_p(list);
 }

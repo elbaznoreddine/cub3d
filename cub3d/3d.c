@@ -6,7 +6,7 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/03 12:45:30 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:12:21 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ void	draw_3dwall(t_list *list, int top, int down, int i)
 	int	z;
 
 	z = 0;
-	while (z < list->h)
+	while (z < list->h / 2)
 	{
 		mlx_put_pixel(list->win, i, z, get_rgba(0, 0, 0, 255));
+		z++;
+	}
+	while (z < list->h)
+	{
+		mlx_put_pixel(list->win, i, z, get_rgba(255, 255, 255, 255));
 		z++;
 	}
 	while (top < down)
@@ -47,6 +52,11 @@ void	draw_3d(t_list *list, double d, double v, int i)
 	down = (list->h / 2) + (wsh / 2);
 	if (down > list->h)
 		down = list->h;
+	if (wsh <= 1)
+	{
+		top = list->h / 2;
+		down = top + 1;
+	}
 	draw_3dwall(list, top, down, i);
 }
 
