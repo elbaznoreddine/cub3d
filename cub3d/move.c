@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:19:23 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 10:24:29 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:11:46 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 int	move0(t_list *list)
 {

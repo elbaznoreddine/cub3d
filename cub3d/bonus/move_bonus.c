@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   move_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:19:23 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 10:24:01 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 17:37:19 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3D_bonus.h"
 
 int	move0(t_list *list)
 {
@@ -95,7 +95,38 @@ int	move2(t_list *list)
 	}
 	return (0);
 }
+void	open_door(t_list *list)
+{
+	int x;
+	int y;
 
+	x = floor(list->px / list->tail);
+	y = floor(list->py / list->tail);
+	if (list->line[y + 1][x] == 'D')
+		list->line[y + 1][x] = 'd';
+	if (list->line[y - 1][x] == 'D')
+		list->line[y - 1][x] = 'd';
+	if (list->line[y][x + 1] == 'D')
+		list->line[y][x + 1] = 'd';
+	if (list->line[y][x - 1] == 'D')
+		list->line[y][x - 1] = 'd';
+} 
+void	close_door(t_list *list)
+{
+	int x;
+	int y;
+
+	x = floor(list->px / list->tail);
+	y = floor(list->py / list->tail);
+	if (list->line[y + 1][x] == 'd')
+		list->line[y + 1][x] = 'D';
+	if (list->line[y - 1][x] == 'd')
+		list->line[y - 1][x] = 'D';
+	if (list->line[y][x + 1] == 'd')
+		list->line[y][x + 1] = 'D';
+	if (list->line[y][x - 1] == 'd')
+		list->line[y][x - 1] = 'D';
+} 
 void	move(mlx_key_data_t keydata, void	*param)
 {
 	t_list	*list;
@@ -103,6 +134,32 @@ void	move(mlx_key_data_t keydata, void	*param)
 	list = param;
 	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
 		exit(0);
+	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
+		open_door(list);
+	if (keydata.key == MLX_KEY_C && keydata.action == MLX_PRESS)
+		close_door(list);
 	if (move0(list) || move1(list) || move11(list) || move2(list))
 		return ;
+}
+
+void mouse(double xpos, double ypos, void *param)
+{
+    t_list *list;
+    int delta_x;
+    (void)ypos;
+
+
+	list = (t_list *)param;
+    delta_x = (int)xpos - (list->w / 2);
+    if (abs(delta_x) > 2)
+	{
+        list->v += delta_x * list->mouse_sens;
+        if (list->v > 2 * list->pi)
+            list->v -= 2 * list->pi;
+        if (list->v < 0)
+            list->v += 2 * list->pi;
+        list->vy = sin(list->v);
+        list->vx = cos(list->v);
+        mlx_set_mouse_pos(list->mlx, list->w / 2, list->h / 2);
+    }
 }

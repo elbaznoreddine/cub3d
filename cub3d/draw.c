@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 16:00:32 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 09:44:15 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:29:07 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 void	draw_p0(t_list *list)
 {
@@ -23,7 +23,7 @@ void	draw_p0(t_list *list)
 		x = 0;
 		while (list->line[y][x])
 		{
-			if (list->line[y][x] == 'P')
+			if (list->line[y][x] == 'N' | list->line[y][x] == 'E' | list->line[y][x] == 'W' | list->line[y][x] == 'S')
 			{
 				list->py = y * list->tail + 32;
 				list->px = x * list->tail + 32;
@@ -45,7 +45,7 @@ int	is_wall(t_list *list, double y, double x)
 		return (1);
 	j = floor(y / list->tail);
 	i = floor(x / list->tail);
-	if (list->line[(int) j][(int) i] == '1')
+	if (list->line[(int) j][(int) i] == '1' || (list->line[(int) j][(int) i] == 32))
 		return (1);
 	return (0);
 }

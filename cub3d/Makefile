@@ -6,70 +6,60 @@
 #    By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/05 11:46:20 by yzoullik          #+#    #+#              #
-#    Updated: 2025/08/20 11:13:51 by yzoullik         ###   ########.fr        #
+#    Updated: 2025/08/24 07:58:34 by yzoullik         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3D
-HEADER = cub3d.h
+NAME=cub3D
+# MFLAGS = -lmlx -framework OpenGL -framework Appkit
+FLAGS= -Werror -Wextra -Wall -fsanitize=address -g3
+MLX_DIR = /mnt/homes/yzoullik/Documents/MLX42
+MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/yzoullik/.brew/opt/glfw/lib"
 
-SRC =	cub3d.c\
-		get_next_line.c\
-		get_next_line_utils.c\
-		split.c\
+PARSE= parsing/func_utils/utils_1.c parsing/utils_parse.c parsing/parse_config.c parsing/get_next_line.c \
+	   parsing/func_utils/utils_2.c parsing/parse.c parsing/map_parse.c parsing/map_parse1.c \
+	   parsing/map_parse2.c parsing/parse_config1.c parsing/parse_config2.c parsing/parse_config3.c \
+	   parsing/func_utils/utils_3.c
+
+BPARSE= bonus/parsing_bonus/func_utils/utils_1_bonus.c bonus/parsing_bonus/utils_parse_bonus.c bonus/parsing_bonus/parse_config_bonus.c bonus/parsing_bonus/get_next_line.c \
+	    bonus/parsing_bonus/func_utils/utils_2_bonus.c bonus/parsing_bonus/parse_bonus.c bonus/parsing_bonus/map_parse_bonus.c bonus/parsing_bonus/map_parse1_bonus.c \
+	    bonus/parsing_bonus/map_parse2_bonus.c bonus/parsing_bonus/parse_config1_bonus.c bonus/parsing_bonus/parse_config2_bonus.c bonus/parsing_bonus/parse_config3_bonus.c \
+		bonus/parsing_bonus/func_utils/utils_3_bonus.c
+
+EXEC= cub3d.c\
 		draw.c\
 		move.c\
 		dda.c\
 		utils.c\
 		3d.c\
 
-
-NAMEB = cub3d_bonus
-HEADERB = bonus/cub3d_bonus.h
-
-SRCB =	bonus/cub3d_bonus.c\
-		bonus/get_next_line_bonus.c\
-		bonus/get_next_line_utils_bonus.c\
-		bonus/split_bonus.c\
+BEXEC = bonus/cub3d_bonus.c\
 		bonus/draw_bonus.c\
 		bonus/draw0_bonus.c\
 		bonus/move_bonus.c\
 		bonus/dda_bonus.c\
 		bonus/minimap_bonus.c\
 		bonus/utils_bonus.c\
-		bonus/3d_bonus.c\
-		
-OBJ = $(SRC:.c=.o)
-OBJB = $(SRCB:.c=.o)
+		bonus/3d_bonus.c
 
-MLX_DIR = /mnt/homes/yzoullik/Documents/MLX42
-
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
-
-MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/yzoullik/.brew/opt/glfw/lib"
+OBJ=$(PARSE:.c=.o) $(EXEC:.c=.o)
+BOBJ=$(BPARSE:.c=.o) $(BEXEC:.c=.o)
 
 all: $(NAME)
 
-bonus : $(NAMEB)
+$(NAME): $(OBJ) cub3D.h
+	@cc $(FLAGS) $(MFLAGS) $(OBJ) -o $(NAME) $(MLXFLAGS)
+	@echo "Compilation done;"
 
-$(NAME): $(OBJ)
-	cc $(CFLAGS)  $(OBJ) -o $(NAME) $(MLXFLAGS)
+bonus: $(BOBJ) bonus/cub3D_bonus.h
+	@cc $(FLAGS) $(MFLAGS) $(BOBJ) -o $(NAME)_bonus $(MLXFLAGS)
+	@echo "Compilation done;"
 
-$(NAMEB): $(OBJB)
-	cc $(CFLAGS) $(OBJB) -o $(NAMEB) $(MLXFLAGS)
-
-%.o: %.c $(HEADER)
-	cc $(CFLAGS) -c $< -o $@
-
-bonus/%.o: bonus/%.c $(HEADERB)
-	cc $(CFLAGS) -c $< -o $@
-
+%.o:%.c cub3D.h bonus/cub3D_bonus.h
+	@cc $(FLAGS) $(MFLAGS) -c $< -o $@
 clean:
-	rm -f $(OBJ) $(OBJB)
-
+	@rm -rf $(OBJ) $(BOBJ)
 fclean: clean
-	rm -f $(NAME) $(NAMEB)
+	@rm -rf $(NAME) $(NAME)_bonus
 
 re: fclean all
-
-.PHONY: clean

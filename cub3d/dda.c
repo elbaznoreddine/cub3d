@@ -6,11 +6,11 @@
 /*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:22 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/06 15:02:39 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:20:14 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 void	h_dda(t_list *list, double nexty, double nextx)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:08:34 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/05 11:54:22 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:12:12 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 size_t	ft_strlen(char *s)
 {

@@ -3,35 +3,126 @@
 /*                                                        :::      ::::::::   */
 /*   3d.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:38:58 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/21 10:12:21 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:20:02 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
-void	draw_3dwall(t_list *list, int top, int down, int i)
+mlx_texture_t *get_wall_texture(t_list *list, double ray_angle)
 {
-	int	z;
+    double	rayDirX;
+    double	rayDirY;
+    int		side;
 
-	z = 0;
-	while (z < list->h / 2)
+	rayDirX = cos(ray_angle);
+	rayDirY = sin(ray_angle);
+    if (list->hd < list->vd)
+        side = 1;
+	else
+        side = 0;
+    if (side == 1)
 	{
-		mlx_put_pixel(list->win, i, z, get_rgba(0, 0, 0, 255));
-		z++;
-	}
-	while (z < list->h)
+        if (rayDirY > 0)
+            return list->north_texture;
+        else
+            return list->south_texture;
+    }
+	else
 	{
-		mlx_put_pixel(list->win, i, z, get_rgba(255, 255, 255, 255));
-		z++;
+        if (rayDirX > 0)
+            return list->west_texture;
+        else
+            return list->east_texture;
 	}
-	while (top < down)
+}
+
+void	draw_wall_texture(t_list *list, int screen_x, int wall_top,
+			int wall_bottom, double ray_angle)
+{
+	mlx_texture_t	*texture;
+	double		wall_x;
+	int		tex_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int		side;
+	double		offset;
+	int		wall_height;
+	double		tex_step;
+	double		tex_pos;
+	int		sy;
+	int		ty;
+	int		pixel_index;
+	uint32_t	color;
+
+	texture = get_wall_texture(list, ray_angle);
+	if (!texture || !texture->pixels)
+		return ;
+	ray_dir_x = cos(ray_angle);
+	ray_dir_y = sin(ray_angle);
+	if (list->hd < list->vd)
+		side = 1;
+	else
+		side = 0;
+	if (side == 1)
+		wall_x = list->hwallx;
+	else
+		wall_x = list->vwally;
+	offset = fmod(wall_x, (double)list->tail) / (double)list->tail;
+	if (offset < 0)
+		offset += 1.0;
+	tex_x = (int)(offset * texture->width);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= (int)texture->width)
+		tex_x = texture->width - 1;
+	if ((side == 0 && ray_dir_x < 0) || (side == 1 && ray_dir_y > 0))
+		tex_x = texture->width - tex_x - 1;
+	wall_height = wall_bottom - wall_top;
+	if (wall_height <= 0)
+		return ;
+	tex_step = (double)texture->height / wall_height;
+	tex_pos = 0.0;
+	sy = wall_top;
+	while (sy < wall_bottom)
 	{
-		mlx_put_pixel(list->win, i, top, get_rgba(255, 0, 0, 255));
-		top++;
+		if (sy >= 0 && sy < list->h)
+		{
+			ty = (int)tex_pos;
+			if (ty < 0)
+				ty = 0;
+			if (ty >= (int)texture->height)
+				ty = texture->height - 1;
+			pixel_index = (ty * texture->width + tex_x) * 4;
+			color = (texture->pixels[pixel_index] << 24)
+				| (texture->pixels[pixel_index + 1] << 16)
+				| (texture->pixels[pixel_index + 2] << 8) | 255;
+			mlx_put_pixel(list->win, screen_x, sy, color);
+		}
+		tex_pos += tex_step;
+		sy++;
 	}
+}
+
+void draw_3dwall(t_list *list, int top, int down, int i, double v)
+{
+    int	z;
+
+    z = 0;
+    while (z < list->h / 2)
+	{
+        mlx_put_pixel(list->win, i, z, list->game->ceil);
+        z++;
+    }
+    while (z < list->h)
+	{
+        mlx_put_pixel(list->win, i, z, list->game->floor);
+        z++;
+    }
+    draw_wall_texture(list, i, top, down, v);
 }
 
 void	draw_3d(t_list *list, double d, double v, int i)
@@ -47,17 +138,17 @@ void	draw_3d(t_list *list, double d, double v, int i)
 	wh = (list->tail / d) * dp;
 	wsh = (int)wh;
 	top = (list->h / 2) - (wsh / 2);
-	if (top < 0)
-		top = 0;
+	// if (top < 0)
+	// 	top = 0;
 	down = (list->h / 2) + (wsh / 2);
-	if (down > list->h)
-		down = list->h;
+	// if (down > list->h)
+	// 	down = list->h;
 	if (wsh <= 1)
 	{
 		top = list->h / 2;
 		down = top + 1;
 	}
-	draw_3dwall(list, top, down, i);
+	draw_3dwall(list, top, down, i, v);
 }
 
 void	draw_wall(t_list *list, double v, double i)

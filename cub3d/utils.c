@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:33:13 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/29 16:48:15 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:11:31 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 int	get_rgba(int r, int g, int b, int a)
 {

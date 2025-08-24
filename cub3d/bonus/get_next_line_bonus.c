@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:28:29 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/07/31 09:25:25 by yzoullik         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:31:53 by noel-baz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3D_bonus.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {
