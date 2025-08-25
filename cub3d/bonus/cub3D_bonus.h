@@ -7,7 +7,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
-# include "/mnt/homes/yzoullik/Documents/MLX42/include/MLX42/MLX42.h"
+# include "/mnt/homes/noel-baz/Documents/MLX42/include/MLX42/MLX42.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

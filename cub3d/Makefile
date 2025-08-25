@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+         #
+#    By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/05 11:46:20 by yzoullik          #+#    #+#              #
-#    Updated: 2025/08/24 07:58:34 by yzoullik         ###   ########.fr        #
+#    Updated: 2025/08/25 13:01:05 by noel-baz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=cub3D
 # MFLAGS = -lmlx -framework OpenGL -framework Appkit
 FLAGS= -Werror -Wextra -Wall -fsanitize=address -g3
-MLX_DIR = /mnt/homes/yzoullik/Documents/MLX42
-MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/yzoullik/.brew/opt/glfw/lib"
+MLX_DIR = /mnt/homes/noel-baz/Documents/MLX42
+MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit $(MLX_DIR)/build/libmlx42.a  -Iinclude -lglfw -L"/mnt/homes/noel-baz/.brew/opt/glfw/lib"
 
 PARSE= parsing/func_utils/utils_1.c parsing/utils_parse.c parsing/parse_config.c parsing/get_next_line.c \
 	   parsing/func_utils/utils_2.c parsing/parse.c parsing/map_parse.c parsing/map_parse1.c \
