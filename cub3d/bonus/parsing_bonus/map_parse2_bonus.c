@@ -9,6 +9,11 @@ int	space_touches_empty_cell(t_map *map, int i, int j)
 			(i < map->height - 1 && map->grid[i + 1][j] == '0') ||
 			(i > 0 && map->grid[i - 1][j] == '0'))
 			return (1);
+		if ((j < map->width - 1 && map->grid[i][j + 1] == 'D') ||
+			(j > 0 && map->grid[i][j - 1] == 'D') ||
+			(i < map->height - 1 && map->grid[i + 1][j] == 'D') ||
+			(i > 0 && map->grid[i - 1][j] == 'D'))
+			return (1);
 	}
 	return (0);
 }
