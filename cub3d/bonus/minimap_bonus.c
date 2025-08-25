@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:26:12 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/23 15:17:41 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:20:52 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	draw_miniplayer(t_list	*list)
 	i = 200;
 	while (x++ <= 50)
 	{
-		if (is_wall(list, list->py + j - 200, list->px + i - 200))
+		if (is_wall(list, list->py + j - 200, list->px + i - 200) > 0)
 			break ;
 		mlx_put_pixel(list->win, i * list->f, j * list->f, \
 		get_rgba(255, 0, 0, 255));
@@ -57,9 +57,21 @@ void	draw_minimap(t_list *list)
 		(1 && (i = 0, x = list->px - 200));
 		while (i++ <= 400)
 		{
-			if (is_wall(list, y, x))
+			if (is_wall(list, y, x) == 1)
+			{
 				mlx_put_pixel(list->win, i * list->f, j * list->f, \
 				get_rgba(0, 0, 0, 255));
+			}
+			else if (is_wall(list, y, x) == 2)
+			{
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(255, 0, 0, 255));
+			}
+			else if (is_wall(list, y, x) == -3)
+			{
+				mlx_put_pixel(list->win, i * list->f, j * list->f, \
+				get_rgba(0, 255, 0, 255));
+			}
 			else
 				mlx_put_pixel(list->win, i * list->f, j * list->f, \
 				get_rgba(128, 128, 128, 255));

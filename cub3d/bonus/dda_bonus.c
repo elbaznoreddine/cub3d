@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 15:23:22 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/23 13:31:45 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:20:22 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	h_dda(t_list *list, double nexty, double nextx)
 			y += 1;
 		if (nextx < 0 || nextx > list->ww || nexty < 0 || nexty > list->wh)
 			return ;
-		if (is_wall(list, y, x))
+		if (is_wall(list, y, x) > 0)
 		{
 			list->hwally = nexty;
 			list->hwallx = nextx;
@@ -56,7 +56,7 @@ void	v_dda(t_list *list, double nexty, double nextx)
 			x += 1;
 		if (nextx < 0 || nextx > list->ww || nexty < 0 || nexty > list->wh)
 			return ;
-		if (is_wall(list, y, x))
+		if (is_wall(list, y, x) > 0)
 		{
 			list->vhit = 1;
 			list->vwally = nexty;

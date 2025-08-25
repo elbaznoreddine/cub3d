@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw0_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:06:16 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/23 13:31:50 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:20:44 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,15 @@ int	to_move(t_list *list, double y, double x)
 	{
 		py += y;
 		px += x;
-		if (is_wall(list, py, px))
+		if (is_wall(list, py, px) > 0)
 			return (0);
-		if (is_wall(list, py + 1, px))
+		if (is_wall(list, py + 1, px) > 0)
 			return (0);
-		if (is_wall(list, py - 1, px))
+		if (is_wall(list, py - 1, px) > 0)
 			return (0);
-		if (is_wall(list, py, px + 1))
+		if (is_wall(list, py, px + 1) > 0)
 			return (0);
-		if (is_wall(list, py, px - 1))
+		if (is_wall(list, py, px - 1) > 0)
 			return (0);
 		i++;
 	}

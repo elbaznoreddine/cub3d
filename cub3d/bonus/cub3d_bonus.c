@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noel-baz <noel-baz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yzoullik <yzoullik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 11:49:41 by yzoullik          #+#    #+#             */
-/*   Updated: 2025/08/23 16:05:48 by noel-baz         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:36:10 by yzoullik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ t_list	*list_init(t_game *game)
 	list->pi = M_PI;
 	list->fov = 60 * (list->pi / 180);
 	list->v = game->direction;
-	list->mspeed = 7;
-	list->rspeed = 5 * (list->pi / 180);
+	list->mspeed = 13;
+	list->rspeed = 10 * (list->pi / 180);
 	list->vy = sin(list->v);
 	list->vx = cos(list->v);
     list->mouse_sens = 0.003;
@@ -74,10 +74,12 @@ int	is_wall(t_list *list, double y, double x)
 		return (1);
 	j = floor(y / list->tail);
 	i = floor(x / list->tail);
-	if (list->line[(int) j][(int) i] == '1' || \
-	list->line[(int) j][(int) i] == 'D' || \
-	list->line[(int) j][(int) i] == 32)
+	if (list->line[(int) j][(int) i] == '1' || list->line[(int) j][(int) i] == 32)
 		return (1);
+	if (list->line[(int) j][(int) i] == 'D')
+		return (2);
+	if (list->line[(int) j][(int) i] == 'd')
+		return (-3);
 	return (0);
 }
 
@@ -96,19 +98,32 @@ mlx_texture_t *load_png_texture(char *path)
 
 int load_all_textures(t_list *list)
 {
-    list->north_texture = load_png_texture("texter/no.png");
+    list->north_texture = load_png_texture("texter/w1.png");
     if (!list->north_texture)
         return (0);
-    list->south_texture = load_png_texture("texter/so.png");
+    list->south_texture = load_png_texture("texter/w1.png");
     if (!list->south_texture)
         return (0);
-    list->east_texture = load_png_texture("texter/ea.png");
+    list->east_texture = load_png_texture("texter/w1.png");
     if (!list->east_texture)
         return (0);
-    list->west_texture = load_png_texture("texter/we.png");
+    list->west_texture = load_png_texture("texter/w1.png");
     if (!list->west_texture)
         return (0);
-	list->door_texture = load_png_texture("texter/door.png");
+	list->door_texture = load_png_texture("texter/d1.png");
+    // list->north_texture = load_png_texture("texter/no.png");
+    // if (!list->north_texture)
+    //     return (0);
+    // list->south_texture = load_png_texture("texter/so.png");
+    // if (!list->south_texture)
+    //     return (0);
+    // list->east_texture = load_png_texture("texter/ea.png");
+    // if (!list->east_texture)
+    //     return (0);
+    // list->west_texture = load_png_texture("texter/we.png");
+    // if (!list->west_texture)
+    //     return (0);
+	// list->door_texture = load_png_texture("texter/door.png");
     list->tex_width = list->north_texture->width;
     list->tex_height = list->north_texture->height;
     return (1);
