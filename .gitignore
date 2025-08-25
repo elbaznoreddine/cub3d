@@ -1,6 +1,0 @@
-.vscode
-.gitignore
-cub3D
-*.o
-*/*.o
-*/*/*.o
